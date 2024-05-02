@@ -1,5 +1,5 @@
 <p align="center">
- <img width="200px" src="img.png" alt="qr"/>
+ <img width="700px" src="https://raw.githubusercontent.com/Stenix777/Neural-network-telegram/main/tgbot_app/media/readme.jpg" alt="qr"/>
 </p>
 
 
