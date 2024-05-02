@@ -5,8 +5,9 @@ from aiogram.types import CallbackQuery, Message
 
 from tgbot_app.keyboards import (gen_learning_kb, gen_other_services_kb,
                                  gen_services_kb, gen_working_kb)
-from tgbot_app.utils.callbacks import ServicesCallback, CommonCallback
-from tgbot_app.utils.enums import DefaultCommands, MainButtons, ServicesButtons, CommonChapter
+from tgbot_app.utils.callbacks import CommonCallback, ServicesCallback
+from tgbot_app.utils.enums import (CommonChapter, DefaultCommands, MainButtons,
+                                   ServicesButtons)
 from tgbot_app.utils.text_variables import (SERVICES_LEARNING_TEXT,
                                             SERVICES_MAIN_TEXT,
                                             SERVICES_OTHERS_TEXT,

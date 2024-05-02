@@ -1,7 +1,8 @@
-from common.models import (ImageQuery, Invoice, ReferalLink, Tariff,
-                           TextGenerationRole, TextQuery, User, VideoQuery, Report)
 from flask_admin.contrib.sqla import ModelView
 from flask_admin.contrib.sqla.filters import BooleanEqualFilter
+
+from common.models import (ImageQuery, Invoice, ReferalLink, Report, Tariff,
+                           TextGenerationRole, TextQuery, User, VideoQuery)
 from flask_app.extensions import admin, db
 
 

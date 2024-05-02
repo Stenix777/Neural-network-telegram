@@ -4,8 +4,9 @@ import json
 import flask_login as login
 from flask import redirect, request, url_for
 from flask_admin import AdminIndexView, expose
-from flask_app.forms import EditForm
 from flask_login import current_user
+
+from flask_app.forms import EditForm
 
 
 def get_json_data():

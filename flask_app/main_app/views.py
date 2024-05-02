@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, redirect
+from flask import Blueprint, redirect, render_template
 
 from common.settings import settings
 

@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template
 
-from common.db_api import sync_get_object_by_id, sync_get_links
+from common.db_api import sync_get_links, sync_get_object_by_id
 from common.models import User
 
 reports_app = Blueprint(name="reports", import_name=__name__, url_prefix="/reports")

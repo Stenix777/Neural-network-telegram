@@ -1,10 +1,12 @@
-from flask_admin._compat import as_unicode
-from flask_admin import Admin
-from flask_security import SQLAlchemyUserDatastore
-from .models import admin_db, User, Role
-from .views import AdminsView
 import hashlib
 import urllib
+
+from flask_admin import Admin
+from flask_admin._compat import as_unicode
+from flask_security import SQLAlchemyUserDatastore
+
+from .models import Role, User, admin_db
+from .views import AdminsView
 
 admins_store = SQLAlchemyUserDatastore(admin_db, User, Role)
 

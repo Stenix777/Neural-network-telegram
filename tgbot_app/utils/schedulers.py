@@ -5,9 +5,9 @@ from aiogram import Bot
 from loguru import logger
 from sqlalchemy import select, update
 
-from common.db_api import (create_invoice, get_admins_id,
-                           get_users_for_recurring, unsubscribe_user,
-                           update_object, get_obj_by_id, get_users_id, create_report)
+from common.db_api import (create_invoice, create_report, get_admins_id,
+                           get_obj_by_id, get_users_for_recurring,
+                           get_users_id, unsubscribe_user, update_object)
 from common.models import Tariff, User, db
 from common.services import robokassa
 from common.settings import settings

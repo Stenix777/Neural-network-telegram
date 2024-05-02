@@ -4,6 +4,7 @@ from .admin_handler import router as admin_router
 from .ais_handler import router as ais_router
 from .article_handler import router as article_router
 from .diploma_handler import router as diploma_router
+from .empty_handler import router as empty_router
 from .faq_handler import router as faq_router
 from .gen_image_handler import router as image_router
 from .gen_text_handler import router as text_router
@@ -18,7 +19,6 @@ from .stt_handler import router as stt_router
 from .tokens_handler import router as tokens_router
 from .tts_handler import router as tts_router
 from .vision_handler import router as vision_router
-from .empty_handler import router as empty_router
 
 main_router = Router()
 

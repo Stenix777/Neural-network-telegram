@@ -1,12 +1,11 @@
 from flask_admin import Admin
+from flask_login import LoginManager
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
-from flask_login import LoginManager
-from flask_app.admin.views import MyAdminIndexView
-
 
 from common.models import Base, UserAdmin
 from common.settings import settings
+from flask_app.admin.views import MyAdminIndexView
 
 db = SQLAlchemy(model_class=Base)
 migrate = Migrate(compare_type=True)

@@ -8,9 +8,9 @@ from common.models import User
 from common.settings import settings
 from tgbot_app.keyboards import (gen_ai_types_kb, gen_img_model_kb,
                                  gen_main_video_kb, gen_txt_settings_kb)
-
 from tgbot_app.utils.callbacks import AiTypeCallback, CommonCallback
-from tgbot_app.utils.enums import AiTypeButtons, DefaultCommands, MainButtons, CommonChapter
+from tgbot_app.utils.enums import (AiTypeButtons, CommonChapter,
+                                   DefaultCommands, MainButtons)
 from tgbot_app.utils.states import GenerationState
 from tgbot_app.utils.text_generators import (gen_img_settings_text,
                                              gen_txt_settings_text)

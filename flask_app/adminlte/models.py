@@ -1,5 +1,5 @@
-from flask_sqlalchemy import SQLAlchemy
 from flask_security import RoleMixin, UserMixin
+from flask_sqlalchemy import SQLAlchemy
 
 admin_db = SQLAlchemy()
 

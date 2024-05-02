@@ -16,7 +16,8 @@ from tgbot_app.handlers import main_router
 from tgbot_app.middlewares import ChannelMiddleware, UserMiddleware
 from tgbot_app.utils.enums import DefaultCommands
 from tgbot_app.utils.schedulers import (daily_limits_update,
-                                        recurrent_payments, send_report, update_users_files)
+                                        recurrent_payments, send_report,
+                                        update_users_files)
 
 
 def _set_loggers() -> None:

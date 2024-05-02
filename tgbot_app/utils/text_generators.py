@@ -1,6 +1,6 @@
 from common.db_api import get_obj_by_id
 from common.enums import ImageModels, TextModels
-from common.models import Tariff, User, Report
+from common.models import Report, Tariff, User
 from common.settings import settings
 from tgbot_app.utils.misc import decl
 

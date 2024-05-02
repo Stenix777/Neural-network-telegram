@@ -1,6 +1,6 @@
 from datetime import date
 
-from sqlalchemy import Date, JSON
+from sqlalchemy import JSON, Date
 from sqlalchemy.orm import Mapped, mapped_column
 
 from common.models import Base

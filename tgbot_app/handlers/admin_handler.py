@@ -2,7 +2,7 @@ from aiogram import F, Router
 from aiogram.fsm.context import FSMContext
 from aiogram.types import CallbackQuery, Message
 
-from common.db_api import create_object, update_object, create_report
+from common.db_api import create_object, create_report, update_object
 from common.models import ReferalLink, User
 from common.settings import settings
 from tgbot_app.keyboards import gen_admin_links_kb, gen_admin_main_kb
