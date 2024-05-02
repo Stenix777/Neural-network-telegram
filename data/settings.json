@@ -1,0 +1,154 @@
+{
+    "Настройки приложения": {
+        "csrf_token": {
+            "value": "ImQzNzY1OWU5NDk4NmNkOGVmZDdmNTlhYjIzNWJhZmZjNmM5Y2M1MzQi.ZiKFVg.iFPncxBwveQ39O4hl_KsE4y0OnU",
+            "hide": true
+        },
+        "app_name": {
+            "value": "",
+            "caption": "Название приложения"
+        },
+        "domain": {
+            "value": "",
+            "caption": "Домен"
+        },
+        "tgbot_token": {
+            "value": "",
+            "caption": "Токен бота"
+        },
+        "bot_username": {
+            "value": "",
+            "caption": "Username бота"
+        },
+        "support_username": {
+            "value": "",
+            "caption": "Username поддержки"
+        },
+        "target_chat": {
+            "value": "",
+            "caption": "Чат"
+        },
+        "target_chat_link": {
+            "value": "",
+            "caption": "Чат"
+        },
+        "api_token": {
+            "value": "",
+            "caption": "Api токен"
+        }
+    },
+    "Настройки Робокассы": {
+        "robokassa_login": {
+            "value": "",
+            "caption": "Логин"
+        },
+        "robokassa_pass1": {
+            "value": "",
+            "caption": "Пароль 1"
+        },
+        "robokassa_pass2": {
+            "value": "",
+            "caption": "Пароль 2"
+        }
+    },
+    "Бесплатные запросы": {
+        "free_gemini_queries": {
+            "value": "",
+            "caption": "Gemini"
+        },
+        "free_sd_queries": {
+            "value": "",
+            "caption": "StableDiffusion"
+        },
+        "free_kandinsky_queries": {
+            "value": "",
+            "caption": "Kandinsky"
+        }
+    },
+    "Стоимости генераций": {
+        "cost_gpt_3": {
+            "value": "",
+            "caption": "ChatGPT 3"
+        },
+        "cost_gpt_4": {
+            "value": "",
+            "caption": "ChatGPT 4"
+        },
+        "cost_yagpt": {
+            "value": "",
+            "caption": "Yandex GPT"
+        },
+        "cost_yagpt_lite": {
+            "value": "",
+            "caption": "Yandex GPT Lite"
+        },
+        "cost_claude": {
+            "value": "",
+            "caption": "Claude"
+        },
+        "cost_gemini": {
+            "value": "",
+            "caption": "Gemini"
+        },
+        "cost_sd": {
+            "value": "",
+            "caption": "StableDiffusion"
+        },
+        "cost_midjourney": {
+            "value": "",
+            "caption": "Midjourney"
+        },
+        "cost_dalle_2": {
+            "value": "",
+            "caption": "Dalle 2"
+        },
+        "cost_dalle_3": {
+            "value": "",
+            "caption": "Dalle 3"
+        },
+        "cost_kandinsky": {
+            "value": "",
+            "caption": "Kandinsky"
+        },
+        "cost_text_to_video": {
+            "value": "",
+            "caption": "Текст в видео"
+        },
+        "cost_img_to_video": {
+            "value": "",
+            "caption": "Изображение в видео"
+        },
+        "cost_rembg_video": {
+            "value": "",
+            "caption": "Удалить фон из видео"
+        },
+        "cost_cartoon_video": {
+            "value": "",
+            "caption": "Мультфильм из видео"
+        },
+        "cost_diploma": {
+            "value": "",
+            "caption": "Стоимость генерации диплома"
+        },
+        "cost_rewrite": {
+            "value": "",
+            "caption": "Рерайт"
+        },
+        "cost_vision": {
+            "value": "",
+            "caption": "Решения по фото"
+        },
+        "cost_article": {
+            "value": "",
+            "caption": "Генерация статьи"
+        },
+        "cost_stt": {
+            "value": "",
+            "caption": "Звук в текст"
+        },
+        "cost_tts": {
+            "value": "",
+            "caption": "Текст в звук"
+        }
+    }
+}

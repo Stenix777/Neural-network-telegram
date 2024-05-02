@@ -1,0 +1,32 @@
+[tool.poetry]
+name = "api-bot"
+version = "0.1.0"
+description = ""
+authors = ["Anton Mindlin <anton.mindlin@gmail.com>"]
+readme = "README.md"
+packages = [{include = "api_bot"}]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+aiogram = "^3.4.1"
+pydantic-settings = "^2.2.1"
+loguru = "^0.7.2"
+flask = "^3.0.2"
+flask-admin = "^1.6.1"
+flask-sqlalchemy = "^3.1.1"
+flask-migrate = "^4.0.7"
+environs = "^11.0.0"
+sqlalchemy = {extras = ["asyncio"], version = "^2.0.28"}
+asyncpg = "^0.29.0"
+psycopg2-binary = "^2.9.9"
+flask-login = "^0.6.3"
+flask-wtf = "^1.2.1"
+requests = "^2.31.0"
+apscheduler = "^3.10.4"
+gunicorn = "^22.0.0"
+flask-security = "^3.0.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

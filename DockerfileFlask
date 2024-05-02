@@ -1,0 +1,18 @@
+FROM python:3.11.2-slim
+
+ENV PYTHONFAULTHANDLER=1 \
+    PYTHONHASHSEED=random \
+    PYTHONUNBUFFERED=1
+
+RUN pip install poetry
+
+WORKDIR /code
+
+COPY ./poetry.lock ./pyproject.toml ./
+
+RUN poetry config virtualenvs.create false && poetry install --no-interaction --no-ansi
+
+COPY ./common ./common
+COPY ./flask_app ./flask_app
+COPY ./migrations ./migrations
+COPY ./wsgi.py ./env ./

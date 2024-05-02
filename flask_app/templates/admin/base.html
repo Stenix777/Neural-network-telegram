@@ -1,0 +1,214 @@
+{% import 'admin/layout.html' as layout with context -%}
+{% import 'admin/static.html' as admin_static with context %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% block title %}{% if admin_view.category %}{{ admin_view.category }} - {% endif %}{{ admin_view.name }} -
+        {{ admin_view.admin.name }}{% endblock title %}</title>
+
+    {% block head_meta %}
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% endblock head_meta %}
+
+    {% block head_css %}
+        <!-- Google Font: Source Sans Pro -->
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="{{url_for('static', filename='plugins/fontawesome-free/css/all.min.css')}}">
+        <!-- Ionicons -->
+        <link rel="stylesheet" href="{{url_for('static', filename='css/ionicons.min.css')}}">
+        <!-- Tempusdominus Bootstrap 4 -->
+        <link rel="stylesheet" href="{{url_for('static', filename='plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css')}}">
+        <!-- iCheck -->
+        <link rel="stylesheet" href="{{url_for('static', filename='plugins/icheck-bootstrap/icheck-bootstrap.min.css')}}">
+        <!-- JQVMap -->
+        <link rel="stylesheet" href="{{url_for('static', filename='plugins/jqvmap/jqvmap.min.css')}}">
+        <!-- Theme style -->
+        <link rel="stylesheet" href="{{url_for('static', filename='css/adminlte.min.css')}}">
+        <!-- overlayScrollbars -->
+        <link rel="stylesheet" href="{{url_for('static', filename='plugins/overlayScrollbars/css/OverlayScrollbars.min.css')}}">
+        <!-- Daterange picker -->
+        <link rel="stylesheet" href="{{url_for('static', filename='plugins/daterangepicker/daterangepicker.css')}}">
+        <!-- summernote -->
+        <link rel="stylesheet" href="{{url_for('static', filename='plugins/summernote/summernote-bs4.min.css')}}">
+        {% if admin_view.extra_css %}
+            {% for css_url in admin_view.extra_css %}
+                <link href="{{ css_url }}" rel="stylesheet">
+            {% endfor %}
+        {% endif %}
+    {% endblock head_css %}
+
+    {% block head %}
+    {% endblock head %}
+
+    {% block head_tail %}
+    {% endblock head_tail %}
+
+</head>
+<body class="hold-transition skin-{{ admin_view.admin.skin }} sidebar-mini">
+
+{% block page_body %}
+
+<div class="wrapper">
+    {% if current_user.is_authenticated %}
+
+    <header class="main-header">
+        {% block brand %}
+        <a href="{{ admin_view.admin.url }}" class="logo">
+            <!-- mini logo for sidebar mini 50x50 pixels -->
+            <span class="logo-mini">
+                            {% autoescape false %}{{ admin_view.admin.short_name }}{% endautoescape %}
+                        </span>
+            <!-- logo for regular state and mobile devices -->
+            <span class="logo-lg">
+                            {% autoescape false %}{{ admin_view.admin.long_name }}{% endautoescape %}
+                        </span>
+        </a>
+        {% endblock brand %}
+
+        <nav class="navbar navbar-static-top">
+            <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+                <span class="sr-only">Toggle navigation</span>
+            </a>
+            <div class="navbar-custom-menu">
+                <ul class="nav navbar-nav">
+                    <li>
+                        {% block access_control %}
+                        
+                            {% if current_user.is_authenticated %}
+                                <li class="dropdown user user-menu">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"
+                                       style="padding: 10px 15px;">
+                                        <img src="{{ admin_view.admin.gravatar_image_url(current_user.email, "http://adminlte.najdaapps.com/static/img/avatar.png", 30) }}"
+                                             style="border-radius: 50%; width: 30px; height:30px;"/>
+                                        <span class="hidden-xs"></span>
+                                    </a>
+                                    <ul class="dropdown-menu">
+                                        <li class="user-header">
+                                            <img src="{{ admin_view.admin.gravatar_image_url(current_user.email, "http://adminlte.najdaapps.com/static/img/avatar.png", 90) }}"
+                                                 style="border-radius: 50%"/>
+                                            <p>
+                                                {% if current_user.first_name %}
+                                                    {{ current_user.first_name }}
+                                                    {% if current_user.last_name %}
+                                                        {{ current_user.last_name }}
+                                                    {% endif %}
+                                                    <small>{{ current_user.email }}</small>
+                                                {% else %}
+                                                    {{ current_user.email }}
+                                                {% endif %}
+                                            </p>
+                                        </li>
+                                        <li class="user-footer">
+                                            {% if security.changeable %}
+                                                <div class="pull-left">
+                                                    <a href="{{ url_for('security.change_password') }}"
+                                                       class="btn btn-default btn-flat">
+                                                        Change Password
+                                                    </a>
+                                                </div>
+                                            {% endif %}
+                                            <div class="pull-right">
+                                                <a href="{{ url_for('security.logout') }}"
+                                                   class="btn btn-default btn-flat">Sign Out</a>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </li>
+                            {% endif %}
+                        {% endblock %}
+                    </li>
+                </ul>
+                {% block menu_links %}
+                    <ul class="nav navbar-nav navbar-right">
+                        {{ layout.menu_links() }}
+                    </ul>
+                {% endblock %}
+            </div>
+        </nav>
+    </header>
+
+    <aside class="main-sidebar sidebar-dark-primary elevation-4">
+        <div class="sidebar">
+            <span class="brand-link">
+                <span class="brand-text font-weight-light">Меню</span>
+            </span>
+            <nav class="mt-2">
+                <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                    {% block main_menu %}
+                        {{ layout.menu() }}
+                    {% endblock %}
+                </ul>
+            </nav>
+        </div>
+    </aside>
+    
+
+    <div class="content-wrapper">
+        
+
+        {% block messages %}
+            {{ layout.messages() }}
+        {% endblock messages %}
+        
+        {# store the jinja2 context for form_rules rendering logic #}
+        {% set render_ctx = h.resolve_ctx() %}
+
+        {% block body %}
+        {% endblock body %}
+    </div>
+    {% endif %}
+        {% if current_user.is_authenticated %}
+            
+
+        <footer class="main-footer"></footer>
+        {% endif %}
+
+</div>
+
+{% endblock page_body %}
+
+{% block tail_js %}
+    <script src="{{ url_for('static',filename='plugins/jquery/jquery.min.js') }}"></script>
+    <!-- jQuery UI 1.11.4 -->
+    <script src="{{ url_for('static',filename='plugins/jquery-ui/jquery-ui.min.js') }}"></script>
+    <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+    <script>
+    $.widget.bridge('uibutton', $.ui.button)
+    </script>
+    <!-- Bootstrap 4 -->
+    <script src="{{ url_for('static',filename='plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+    <!-- ChartJS -->
+    <script src="{{ url_for('static',filename='plugins/chart.js/Chart.min.js') }}"></script>
+    <!-- Sparkline -->
+    <script src="{{ url_for('static',filename='plugins/sparklines/sparkline.js') }}"></script>
+    <!-- JQVMap -->
+    <script src="{{ url_for('static',filename='plugins/jqvmap/jquery.vmap.min.js') }}"></script>
+    <script src="{{ url_for('static',filename='plugins/jqvmap/maps/jquery.vmap.usa.js') }}"></script>
+    <!-- jQuery Knob Chart -->
+    <script src="{{ url_for('static',filename='plugins/jquery-knob/jquery.knob.min.js') }}"></script>
+    <!-- daterangepicker -->
+    <script src="{{ url_for('static',filename='plugins/moment/moment.min.js') }}"></script>
+    <script src="{{ url_for('static',filename='plugins/daterangepicker/daterangepicker.js') }}"></script>
+    <!-- Tempusdominus Bootstrap 4 -->
+    <script src="{{ url_for('static',filename='plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js') }}"></script>
+    <!-- Summernote -->
+    <script src="{{ url_for('static',filename='plugins/summernote/summernote-bs4.min.js') }}"></script>
+    <!-- overlayScrollbars -->
+    <script src="{{ url_for('static',filename='plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js') }}"></script>
+    <!-- AdminLTE App -->
+    <script src="{{ url_for('static',filename='dist/js/adminlte.js') }}"></script>
+    <script src="{{ url_for('static',filename='dist/js/pages/dashboard.js') }}"></script>
+    {% if admin_view.name=="Home" %}
+        <script src="{{ url_for('static',filename='js/pages/dashboard.js') }}"></script>
+    {% endif %}
+
+{% endblock tail_js %}
+
+{% block tail %}
+{% endblock tail %}
+
+</body>
+</html>

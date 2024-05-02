@@ -1,0 +1,20 @@
+{% extends 'reports_app/_base_reports.html' %}
+
+{% block content %}
+    {% if not links %}
+        <h3 class="h4 text-center mt-4">Вы ещё не создали ни одной ссылки...</h3>
+    {% else %}
+        <h3 class="h4 text-center mt-4">Статистика ваших ссылок:</h3>
+        <div>
+            {% for link in links %}
+                <b>{% if link.name %}{{ link.name }}{% else %}No name{% endif %}</b><br>
+                ├ 🔗 <code>{{ link.bot_link }}</code><br>
+                ├ 🔗 <code>{{ link.site_link }}</code><br>
+                ├ {{ link.clicks }} всего переходов<br>
+                ├ {{ link.new_users }} новых регистраций<br>
+                ├ {{ link.clicks - link.new_users }} пользователей уже было<br>
+                └ {{ link.buys_cnt }} покупок на {{ link.buys_sum }}₽<br><br>
+            {% endfor %}
+        </div>
+    {% endif %}
+{% endblock content %}

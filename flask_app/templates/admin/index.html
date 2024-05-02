@@ -1,0 +1,51 @@
+{% extends 'admin/master.html' %}
+{% block head_meta %}
+    {{ super() }}
+    {% if not current_user.is_authenticated %}
+        <meta http-equiv="refresh" content="0; url={{ url_for('security.login') }}"/>
+    {% endif %}
+{% endblock %}
+{% block body %}
+    {{ super() }}
+    
+    <section class="content-header">
+        <div class="container-fluid">
+          <div class="row mb-2">
+            <div class="col-sm-6">
+              <h1>Настройки</h1>
+            </div>
+        </div><!-- /.container-fluid -->
+      </section>
+
+    <section class="content">
+    {% if current_user.is_authenticated %}
+        <form class="form-horizontal" action="{{ url_for('admin.index') }}" method="POST">
+            {{ form.csrf_token }}
+            {% for category, params in data.items() %}
+                <div class="card card-info">
+                    <div class="card-header">
+                        <h3 class="card-title">{{ category }}</h3>
+                    </div>
+                    <div class="card-body">
+                    {% for key, info in params.items() %}
+                        {% if not info.get('hide') %}
+                        <div class="form-group row">
+                            <label for="input_{{ key }}" class="col-sm-2 col-form-label">{{ info.caption }}</label>
+                            <div class="col-sm-10">
+                                <input type="text" id="input_{{ key }}" name="{{ key }}" class="form-control" value="{{ info.value }}">
+                            </div>
+                        </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+            {% endfor %}
+        
+            <div class="card-footer">
+                <button type="submit" class="btn btn-primary">Сохранить</button>
+            </div>
+        </form>
+    {% endif %}
+    </section>
+
+{% endblock body %}

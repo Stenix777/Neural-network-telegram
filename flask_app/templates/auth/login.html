@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% from "macro/formhelpers.html" import render_field %}
+
+{% block content %}
+    <form method="POST">
+        {{ form.csrf_token }}
+        {% for field in ['username', 'password'] %}
+            {{ render_field(form[field]) }}
+        {% endfor %}
+        {{ form.submit(class='btn btn-primary') }}
+    </form>
+{% endblock %}

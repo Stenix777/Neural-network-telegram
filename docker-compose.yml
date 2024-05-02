@@ -1,0 +1,63 @@
+services:
+  db:
+    image: postgres:16.2-alpine
+    container_name: db
+    restart: on-failure
+    environment:
+      - 'TZ=GMT+3'
+      - 'PGTZ=GMT+3'
+      - 'POSTGRES_DB=${DB_NAME}'
+      - 'POSTGRES_USER=${DB_USER}'
+      - 'POSTGRES_PASSWORD=${DB_PASS}'
+    volumes:
+      - ./data/pg_data:/var/lib/postgresql/data
+
+  web:
+    container_name: web
+    build:
+      dockerfile: ./DockerfileFlask
+    restart: on-failure
+    depends_on:
+      - db
+    volumes:
+      - ./data/templates:/code/flask_app/templates/user_templates
+      - ./logs/flask:/code/flask_app/logs
+      - ./data/settings.json:/code/common/settings.json
+    command: "gunicorn --bind 0.0.0.0:5000 --workers 5 wsgi:app"
+
+  bot:
+    container_name: bot
+    build:
+      dockerfile: ./DockerfileBot
+    restart: on-failure
+    depends_on:
+      - db
+      - web
+    volumes:
+      - ./data/tmp:/code/tgbot_app/media/tmp
+      - ./data/users_files:/code/tgbot_app/media/users_files
+      - ./logs/bot:/code/tgbot_app/logs
+      - ./data/settings.json:/code/common/settings.json
+    command: "python run_bot.py"
+
+  nginx:
+    container_name: nginx
+    image: nginx:stable
+    restart: on-failure
+    depends_on:
+      - web
+    volumes:
+      - ./flask_app/static:/static:ro
+      - ./data/tmp:/bot_tmp:ro
+      - ./data/users_files:/users_files:ro
+      - ./data/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+      - ./data/certs:/certs
+      - ./logs/nginx:/var/log/nginx/
+    ports:
+      - "80:80"
+      - "443:443"
+
+volumes:
+  pg_data:
+
+
