@@ -190,14 +190,12 @@ cython_debug/
 
 # CUSTOM
 
-tgbot_app/tmp/*
 data/pg_data
 data/users_files
+data/tmp
 common/settings.json
 tgbot_app/media/tmp/*
 !tgbot_app/media/tmp/.gitkeep
 tgbot_app/media/users_files/*
 !tgbot_app/media/users_files/.gitkeep
-temp.py
 docker-compose-dev.yml
-.env
