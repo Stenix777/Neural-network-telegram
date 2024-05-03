@@ -7,6 +7,8 @@
 - [x] Облачный сервер c установленным Docker ([инструкция](https://docs.docker.com/engine/install/))
 - [x] Домен
 - [x] Файлы сертификатов SSL
+- [x] API token от сервиса Нейросети.com. (можно получить в [боте](https://t.me/chatgpt_tgm_bot), набрав команду `/api`)
+- [x] Пополнить баланс API (в [боте](https://t.me/chatgpt_tgm_bot), набрав команду `/api`)
 
 
 
