@@ -53,101 +53,101 @@
     },
     "Бесплатные запросы": {
         "free_gemini_queries": {
-            "value": "",
+            "value": "0",
             "caption": "Gemini"
         },
         "free_sd_queries": {
-            "value": "",
+            "value": "0",
             "caption": "StableDiffusion"
         },
         "free_kandinsky_queries": {
-            "value": "",
+            "value": "0",
             "caption": "Kandinsky"
         }
     },
     "Стоимости генераций": {
         "cost_gpt_3": {
-            "value": "",
+            "value": "0",
             "caption": "ChatGPT 3"
         },
         "cost_gpt_4": {
-            "value": "",
+            "value": "0",
             "caption": "ChatGPT 4"
         },
         "cost_yagpt": {
-            "value": "",
+            "value": "0",
             "caption": "Yandex GPT"
         },
         "cost_yagpt_lite": {
-            "value": "",
+            "value": "0",
             "caption": "Yandex GPT Lite"
         },
         "cost_claude": {
-            "value": "",
+            "value": "0",
             "caption": "Claude"
         },
         "cost_gemini": {
-            "value": "",
+            "value": "0",
             "caption": "Gemini"
         },
         "cost_sd": {
-            "value": "",
+            "value": "0",
             "caption": "StableDiffusion"
         },
         "cost_midjourney": {
-            "value": "",
+            "value": "0",
             "caption": "Midjourney"
         },
         "cost_dalle_2": {
-            "value": "",
+            "value": "0",
             "caption": "Dalle 2"
         },
         "cost_dalle_3": {
-            "value": "",
+            "value": "0",
             "caption": "Dalle 3"
         },
         "cost_kandinsky": {
-            "value": "",
+            "value": "0",
             "caption": "Kandinsky"
         },
         "cost_text_to_video": {
-            "value": "",
+            "value": "0",
             "caption": "Текст в видео"
         },
         "cost_img_to_video": {
-            "value": "",
+            "value": "0",
             "caption": "Изображение в видео"
         },
         "cost_rembg_video": {
-            "value": "",
+            "value": "0",
             "caption": "Удалить фон из видео"
         },
         "cost_cartoon_video": {
-            "value": "",
+            "value": "0",
             "caption": "Мультфильм из видео"
         },
         "cost_diploma": {
-            "value": "",
+            "value": "0",
             "caption": "Стоимость генерации диплома"
         },
         "cost_rewrite": {
-            "value": "",
+            "value": "0",
             "caption": "Рерайт"
         },
         "cost_vision": {
-            "value": "",
+            "value": "0",
             "caption": "Решения по фото"
         },
         "cost_article": {
-            "value": "",
+            "value": "0",
             "caption": "Генерация статьи"
         },
         "cost_stt": {
-            "value": "",
+            "value": "0",
             "caption": "Звук в текст"
         },
         "cost_tts": {
-            "value": "",
+            "value": "0",
             "caption": "Текст в звук"
         }
     }
