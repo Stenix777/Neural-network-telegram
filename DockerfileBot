@@ -14,4 +14,4 @@ RUN poetry config virtualenvs.create false && poetry install --no-interaction --
 
 COPY ./common ./common
 COPY ./tgbot_app ./tgbot_app
-COPY ./run_bot.py ./env ./
+COPY ./run_bot.py ./.env ./

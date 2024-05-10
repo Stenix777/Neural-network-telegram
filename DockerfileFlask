@@ -15,4 +15,4 @@ RUN poetry config virtualenvs.create false && poetry install --no-interaction --
 COPY ./common ./common
 COPY ./flask_app ./flask_app
 COPY ./migrations ./migrations
-COPY ./wsgi.py ./env ./
+COPY ./wsgi.py ./.env ./

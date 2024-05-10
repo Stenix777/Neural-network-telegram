@@ -199,3 +199,4 @@ tgbot_app/media/tmp/*
 tgbot_app/media/users_files/*
 !tgbot_app/media/users_files/.gitkeep
 docker-compose-dev.yml
+temp
