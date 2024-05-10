@@ -2,7 +2,7 @@ from flask_admin.contrib.sqla import ModelView
 from flask_admin.contrib.sqla.filters import BooleanEqualFilter
 
 from common.models import (ImageQuery, Invoice, ReferalLink, Report, Tariff,
-                           TextGenerationRole, TextQuery, User, VideoQuery)
+                           TextGenerationRole, TextQuery, User, VideoQuery, Refund)
 from flask_app.extensions import admin, db
 
 
@@ -46,8 +46,17 @@ class ReportView(AdminView):
     form_excluded_columns = ("id", )
 
 
+class RefundView(AdminView):
+    form_widget_args = {
+        'user': {
+            'disabled': True
+        }
+    }
+
+
 admin.add_view(UserAdminView(User, db.session, name='Пользователи'))
 admin.add_view(TariffView(Tariff, db.session, name='Тарифы'))
 admin.add_view(InvoiceView(Invoice, db.session, name='Счета'))
 admin.add_view(TextGenerationRoleView(TextGenerationRole, db.session, name='Роли'))
 admin.add_view(ReportView(Report, db.session, name='Отчёты'))
+admin.add_view(RefundView(Refund, db.session, name='Возвраты'))
