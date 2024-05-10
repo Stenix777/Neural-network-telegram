@@ -31,13 +31,16 @@ class Tariff(Base):
     invoices: Mapped["Invoice"] = relationship(back_populates="tariff")
 
     def __str__(self):
+        return self.name
+
+    def __repr__(self):
         return f"<Tariff: {self.name}>"
 
 
 class Invoice(Base):
     __tablename__ = "invoices"
 
-    user_id: Mapped[int] = mapped_column(ForeignKey("users.id", ondelete="SET NULL"))
+    user_id: Mapped[int | None] = mapped_column(ForeignKey("users.id", ondelete="SET NULL"))
     is_paid: Mapped[bool] = mapped_column(default=False)
     mother_invoice_id: Mapped[int | None] = mapped_column(default=None)
     tariff_id: Mapped[int | None] = mapped_column(ForeignKey("tariffs.id", ondelete="SET NULL"))
@@ -47,10 +50,10 @@ class Invoice(Base):
     tariff: Mapped["Tariff"] = relationship(back_populates="invoices", lazy="joined")
 
     def __str__(self):
-        return f"<Invoice: {self.id} | User: {self.user_id}>"
+        return str(self.id)
 
     def __repr__(self):
-        return str(self)
+        return f"<Invoice: {self.id} | User: {self.user_id}>"
 
 
 class Refund(Base):
@@ -62,3 +65,9 @@ class Refund(Base):
     is_done: Mapped[bool] = mapped_column(default=False)
 
     user: Mapped["User"] = relationship(back_populates="refunds")
+
+    def __str__(self):
+        return self.user.username if self.user.username else self.user.id
+
+    def __repr__(self):
+        return f"<Invoice: {self.id} | User: {self.user_id}>"

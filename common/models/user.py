@@ -62,6 +62,9 @@ class User(Base):
     txt_model_role: Mapped["TextGenerationRole"] = relationship(back_populates="users", lazy="joined")
 
     def __str__(self):
+        return self.username if self.username else self.id
+
+    def __repr__(self):
         return f"<User: {self.id}>"
 
     def sub_time_left(self) -> tuple:
@@ -100,4 +103,7 @@ class ReferalLink(Base):
     site_link: Mapped[str] = mapped_column(unique=True, default="")
 
     def __str__(self):
-        return f"<RefLink: {self.id}>"
+        return self.name
+
+    def __repr__(self):
+        return f"<RefLink: {self.name}>"

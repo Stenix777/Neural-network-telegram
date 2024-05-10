@@ -3,7 +3,6 @@ from typing import Any
 
 from loguru import logger
 from sqlalchemy import desc, func, select
-from sqlalchemy.exc import IntegrityError
 
 from common.enums import ImageModels, ServiceModels, TextModels, VideoModels
 from common.models import (Invoice, ReferalLink, Report, Tariff,
@@ -14,14 +13,14 @@ from common.models.payments import Refund
 from common.settings import Model, settings
 
 
-async def get_or_create_user(tgid: int, username: str, first_name: str, last_name: str, link_id: int | None) -> User:
+async def get_or_create_user(tgid: int, username: str, first_name: str, last_name: str, link_id: str | None) -> User:
     async with db.async_session_factory() as session:
         user: User = await session.get(User, tgid)
-        link: ReferalLink = await session.get(ReferalLink, int(link_id)) if link_id else None
+        link: ReferalLink = await session.get(ReferalLink, int(link_id)) if link_id and link_id.isdigit() else None
 
         if not user:
             user = User(id=tgid, username=username if username else str(tgid), first_name=first_name,
-                        last_name=last_name, referal_link_id=link_id)
+                        last_name=last_name, referal_link_id=int(link_id))
             user.gemini_daily_limit = settings.FREE_GEMINI_QUERIES
             user.sd_daily_limit = settings.FREE_SD_QUERIES
             user.kandinsky_daily_limit = settings.FREE_KANDINSKY_QUERIES
@@ -45,7 +44,7 @@ async def get_or_create_user(tgid: int, username: str, first_name: str, last_nam
                 user.update_daily_limits_time = datetime.now()
                 session.add(user)
 
-            if link and user.referal_link_id != link_id:
+            if link and user.referal_link_id != link.id:
                 link.clicks += 1
 
         if link:
