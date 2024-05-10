@@ -72,4 +72,7 @@ async def main() -> None:
 
 
 if __name__ == '__main__':
-    asyncio.run(main())
+    if not settings.TG_TOKEN:
+        logger.error("TG_TOKEN environment variable is not set")
+    else:
+        asyncio.run(main())
