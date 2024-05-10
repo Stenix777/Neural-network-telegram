@@ -26,11 +26,11 @@
         },
         "target_chat": {
             "value": "",
-            "caption": "Чат"
+            "caption": "Чат ID"
         },
         "target_chat_link": {
             "value": "",
-            "caption": "Чат"
+            "caption": "Ссылка на чат"
         },
         "api_token": {
             "value": "",
