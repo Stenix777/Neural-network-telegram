@@ -4,7 +4,7 @@ version = "0.1.0"
 description = ""
 authors = ["Anton Mindlin <anton.mindlin@gmail.com>"]
 readme = "README.md"
-packages = [{include = "api_bot"}]
+#packages = [{include = "api_bot"}]
 
 [tool.poetry.dependencies]
 python = "^3.11"

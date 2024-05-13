@@ -3,7 +3,7 @@ from aiogram.fsm.context import FSMContext
 from aiogram.types import CallbackQuery, Message
 
 from common.db_api import create_object, create_report, update_object
-from common.models import ReferalLink, User
+from common.models import ReferralLink, User
 from common.settings import settings
 from tgbot_app.keyboards import gen_admin_links_kb, gen_admin_main_kb
 from tgbot_app.utils.callbacks import AdminCallback, AdminLinksCallback
@@ -50,7 +50,7 @@ async def admin_links_create(message: Message, user: User, state: FSMContext):
         return
 
     name = message.text
-    link = await create_object(ReferalLink, name=name, owner_id=user.id)
+    link = await create_object(ReferralLink, name=name, owner_id=user.id)
     bot_link = f"https://t.me/{settings.BOT_USERNAME}?start={link.id}"
     site_link = f"{settings.DOMAIN}/redirect/{link.id}/"
     await update_object(link, bot_link=bot_link, site_link=site_link)

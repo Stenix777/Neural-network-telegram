@@ -3,7 +3,7 @@ from typing import TYPE_CHECKING
 
 from flask_login import UserMixin
 from sqlalchemy import (BigInteger, Boolean, Column, DateTime, ForeignKey,
-                        String)
+                        Integer, String, Table)
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy.sql.functions import now
 from werkzeug.security import check_password_hash, generate_password_hash
@@ -15,6 +15,16 @@ if TYPE_CHECKING:
     from .generations import (ImageQuery, ServiceQuery, TextGenerationRole,
                               TextQuery, TextSession, VideoQuery)
     from .payments import Invoice, Refund, Tariff
+
+
+user_referral_link_association = Table(
+    "user_referral_link_association",
+    Base.metadata,
+    Column("user_id", BigInteger, ForeignKey("users.id", ondelete="CASCADE"),
+           primary_key=True),
+    Column("referral_link_id", Integer, ForeignKey("referral_links.id", ondelete="CASCADE"),
+           primary_key=True),
+)
 
 
 class User(Base):
@@ -49,8 +59,6 @@ class User(Base):
     recurring: Mapped[bool] = mapped_column(default=True)
     first_payment: Mapped[bool] = mapped_column(default=True)
 
-    referal_link_id: Mapped[int | None] = mapped_column(ForeignKey("referal_links.id"), default=None)
-
     tariff: Mapped["Tariff"] = relationship(back_populates="users", lazy="joined")
     invoices: Mapped[list["Invoice"]] = relationship(back_populates="user")
     refunds: Mapped[list["Refund"]] = relationship(back_populates="user")
@@ -60,6 +68,8 @@ class User(Base):
     video_queries: Mapped[list["VideoQuery"]] = relationship(back_populates="user")
     services_queries: Mapped[list["ServiceQuery"]] = relationship(back_populates="user")
     txt_model_role: Mapped["TextGenerationRole"] = relationship(back_populates="users", lazy="joined")
+    referral_links: Mapped[list["ReferralLink"]] = relationship(secondary=user_referral_link_association,
+                                                                back_populates="users")
 
     def __str__(self):
         return self.username if self.username else self.id
@@ -89,8 +99,8 @@ class UserAdmin(Base, UserMixin):
         return check_password_hash(self.hash_password, password)
 
 
-class ReferalLink(Base):
-    __tablename__ = "referal_links"
+class ReferralLink(Base):
+    __tablename__ = "referral_links"
 
     id: Mapped[int] = mapped_column(BigInteger(), primary_key=True)
     name: Mapped[str]
@@ -101,6 +111,9 @@ class ReferalLink(Base):
     new_users: Mapped[int] = mapped_column(default=0)
     bot_link: Mapped[str] = mapped_column(unique=True, default="")
     site_link: Mapped[str] = mapped_column(unique=True, default="")
+
+    users: Mapped[list["User"]] = relationship(secondary=user_referral_link_association,
+                                               back_populates="referral_links")
 
     def __str__(self):
         return self.name

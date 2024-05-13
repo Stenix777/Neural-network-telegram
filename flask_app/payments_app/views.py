@@ -3,7 +3,7 @@ from loguru import logger
 
 from common.db_api import (sync_create_obj, sync_get_object_by_id,
                            sync_update_object, update_subscription)
-from common.models import Invoice, ReferalLink, Tariff, User
+from common.models import Invoice, Tariff, User
 from common.services import robokassa
 
 payments_app = Blueprint(name="payments", import_name=__name__, url_prefix="/payments")
@@ -42,9 +42,9 @@ def result_view():
         if invoice.is_paid:
             return Response(f"OK{inv_id}", status=200)
 
-        # if not robokassa.check_signature(inv_id=inv_id, price=price, recv_signature=signature):
-        #     logger.error(f"Check signature ERROR | {inv_id}")
-        #     return Response("Check signature ERROR", status=403)
+        if not robokassa.check_signature(inv_id=inv_id, price=price, recv_signature=signature):
+            logger.error(f"Check signature ERROR | {inv_id}")
+            return Response("Check signature ERROR", status=403)
 
         user: User = invoice.user
         tariff: Tariff = invoice.tariff
@@ -54,8 +54,10 @@ def result_view():
         else:
             update_subscription(user=user, invoice=invoice)
 
-        if user.referal_link_id:
-            link = sync_get_object_by_id(ReferalLink, user.referal_link_id)  # noqa
+        user = sync_get_object_by_id(User, id_=1967246792, relations=[User.referral_links])
+
+        if user.referral_links:
+            link = user.referral_links[0]
             sync_update_object(link, buys_cnt=link.buys_cnt + 1, buys_sum=link.buys_sum + int(float(price)))
 
         sync_update_object(invoice, sum=int(float(price)), is_paid=True)

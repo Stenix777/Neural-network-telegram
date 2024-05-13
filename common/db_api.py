@@ -3,9 +3,10 @@ from typing import Any
 
 from loguru import logger
 from sqlalchemy import desc, func, select
+from sqlalchemy.orm import joinedload
 
 from common.enums import ImageModels, ServiceModels, TextModels, VideoModels
-from common.models import (Invoice, ReferalLink, Report, Tariff,
+from common.models import (Invoice, ReferralLink, Report, Tariff,
                            TextGenerationRole, User, UserAdmin, db)
 from common.models.generations import (ImageQuery, ServiceQuery, TextQuery,
                                        TextSession, VideoQuery)
@@ -16,44 +17,42 @@ from common.settings import Model, settings
 async def get_or_create_user(tgid: int, username: str, first_name: str, last_name: str, link_id: str | None) -> User:
     async with db.async_session_factory() as session:
         user: User = await session.get(User, tgid)
-        if link_id and link_id.isdigit():
-            link: ReferalLink | None = await session.get(ReferalLink, int(link_id))
-            link_id = int(link_id)
-        else:
-            link = link_id = None
+        is_new_user = False
+        link = None
 
         if not user:
+            is_new_user = True
             user = User(id=tgid, username=username if username else str(tgid), first_name=first_name,
-                        last_name=last_name, referal_link_id=link_id)
+                        last_name=last_name)
             user.gemini_daily_limit = settings.FREE_GEMINI_QUERIES
             user.sd_daily_limit = settings.FREE_SD_QUERIES
             user.kandinsky_daily_limit = settings.FREE_KANDINSKY_QUERIES
             text_session = TextSession()
             user.text_session = text_session
 
-            session.add(user)
-
-            if link:
-                link.new_users += 1
-                link.clicks += 1
-
             logger.info(f"New user <{tgid}>")
 
-        else:
-            if not user.is_active:
-                user.is_active = True
-                user.gemini_daily_limit = settings.FREE_GEMINI_QUERIES
-                user.kandinsky_daily_limit = settings.FREE_KANDINSKY_QUERIES
-                user.sd_daily_limit = settings.FREE_SD_QUERIES
-                user.update_daily_limits_time = datetime.now()
-                session.add(user)
+        if not user.is_active:
+            user.is_active = True
+            user.gemini_daily_limit = settings.FREE_GEMINI_QUERIES
+            user.kandinsky_daily_limit = settings.FREE_KANDINSKY_QUERIES
+            user.sd_daily_limit = settings.FREE_SD_QUERIES
+            user.update_daily_limits_time = datetime.now()
 
-            if link and user.referal_link_id != link.id:
-                link.clicks += 1
+        if link_id and link_id.isdigit():
+            stmt = select(ReferralLink).options(joinedload(ReferralLink.users)).where(ReferralLink.id == int(link_id))
+            result = await session.execute(stmt)
+            link = result.scalar()
 
-        if link:
+        if link and user not in link.users:
+            link.users.append(user)
+            link.clicks += 1
+            if is_new_user:
+                link.new_users += 1
+
             session.add(link)
 
+        session.add(user)
         await session.commit()
 
         return user
@@ -234,11 +233,16 @@ async def create_refund(user: User) -> None:
     await unsubscribe_user(user)
 
 
-def sync_get_object_by_id(obj: Any, id_: int) -> Any:
+def sync_get_object_by_id(obj: Any, id_: int, relations: list = None) -> Any:
     with db.session_factory() as session:
-        result = session.get(obj, id_)
+        if relations:
+            stmt = select(obj).options(joinedload(*relations)).where(obj.id == id_)
+        else:
+            stmt = select(obj).where(obj.id == id_)
 
-        return result
+        result = session.execute(stmt)
+
+        return result.scalar()
 
 
 def sync_create_obj(obj: Any, **params) -> Any:
@@ -335,9 +339,9 @@ async def get_users_id(premium: bool = False) -> list[int]:
     return result.all()
 
 
-def sync_get_links(user_id: int) -> list[ReferalLink]:
+def sync_get_links(user_id: int) -> list[ReferralLink]:
     with db.session_factory() as session:
-        return session.scalars(select(ReferalLink).where(ReferalLink.owner_id == user_id)).all()
+        return session.scalars(select(ReferralLink).where(ReferralLink.owner_id == user_id)).all()
 
 
 async def create_object(obj: Any, **params) -> Any:
@@ -363,9 +367,9 @@ async def create_report(auto: bool = False) -> Report:
 
     async with db.async_session_factory() as session:
         users_cnt = await session.scalar(select(func.count()).select_from(User))
-        users_with_link_cnt = await session.scalar(select(func.count()).select_from(User).where(User.referal_link_id.is_not(None)))
+        users_with_link_cnt = await session.scalar(select(func.count()).select_from(User).where(User.referral_link_id.is_not(None)))
         new_users_cnt = await session.scalar(select(func.count()).select_from(User).where(User.created_at.between(*time_range)))
-        new_users_with_link_cnt = await session.scalar(select(func.count()).select_from(User).where(User.created_at.between(*time_range), User.referal_link_id.is_not(None)))
+        new_users_with_link_cnt = await session.scalar(select(func.count()).select_from(User).where(User.created_at.between(*time_range), User.referral_link_id.is_not(None)))
         _text_result = await session.execute(select(TextQuery.model, func.count()).select_from(TextQuery).where(TextQuery.created_at.between(*time_range)).group_by(TextQuery.model))
         _img_result = await session.execute(select(ImageQuery.model, func.count()).select_from(ImageQuery).where(ImageQuery.created_at.between(*time_range)).group_by(ImageQuery.model))
         _video_result = await session.execute(select(VideoQuery.type, func.count()).select_from(VideoQuery).where(VideoQuery.created_at.between(*time_range)).group_by(VideoQuery.type))
