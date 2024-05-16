@@ -224,7 +224,6 @@ async def create_refund(user: User) -> None:
                    Invoice.created_at.between(datetime.now(), last_invoice.created_at)))
     async with db.async_session_factory() as session:
         result = await session.execute(stmt)
-        extra_invoices_cnt = result.raw.rowcount
         session.add(Refund(user_id=user.id, sum=last_invoice.tariff.price, attention=bool(result.raw.rowcount)))
         user.token_balance -= user.tariff.token_balance
 
