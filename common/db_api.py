@@ -2,7 +2,7 @@ from datetime import date, datetime, timedelta
 from typing import Any
 
 from loguru import logger
-from sqlalchemy import desc, func, select
+from sqlalchemy import desc, func, select, exists
 from sqlalchemy.orm import joinedload
 
 from common.enums import ImageModels, ServiceModels, TextModels, VideoModels
@@ -366,9 +366,9 @@ async def create_report(auto: bool = False) -> Report:
 
     async with db.async_session_factory() as session:
         users_cnt = await session.scalar(select(func.count()).select_from(User))
-        users_with_link_cnt = await session.scalar(select(func.count()).select_from(User).where(User.referral_link_id.is_not(None)))
+        users_with_link_cnt = await session.scalar(select(func.count(User.id)).where(exists().where(User.referral_links)))
         new_users_cnt = await session.scalar(select(func.count()).select_from(User).where(User.created_at.between(*time_range)))
-        new_users_with_link_cnt = await session.scalar(select(func.count()).select_from(User).where(User.created_at.between(*time_range), User.referral_link_id.is_not(None)))
+        new_users_with_link_cnt = await session.scalar(select(func.count(User.id)).where(exists().where( User.referral_links), User.created_at.between(*time_range)))
         _text_result = await session.execute(select(TextQuery.model, func.count()).select_from(TextQuery).where(TextQuery.created_at.between(*time_range)).group_by(TextQuery.model))
         _img_result = await session.execute(select(ImageQuery.model, func.count()).select_from(ImageQuery).where(ImageQuery.created_at.between(*time_range)).group_by(ImageQuery.model))
         _video_result = await session.execute(select(VideoQuery.type, func.count()).select_from(VideoQuery).where(VideoQuery.created_at.between(*time_range)).group_by(VideoQuery.type))
