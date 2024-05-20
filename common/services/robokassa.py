@@ -75,11 +75,12 @@ class Robokassa:
     async def async_recurring_request(self, user_id: int, inv_id: int, price: int, desc: str, mother_inv_id: int
                                       ) -> None:
         data = self.gen_payment_data(user_id=user_id, inv_id=inv_id, price=price, tariff_desc=desc,
-                                     mother_inv_id=mother_inv_id, recurring=True)
+                                     mother_inv_id=mother_inv_id, recurring=False)
 
         async with ClientSession() as session:
             async with session.post(url=self.recurring_url, data=data) as response:
-                if response.ok:
-                    logger.info(f"Recurring request SUCCESS | <{user_id}>")
+                text = await response.text()
+                if "ERROR" in text:
+                    logger.error(f"Recurring request ERROR | <{user_id}> | {text}")
                 else:
-                    logger.error(f"Recurring request ERROR | <{user_id}> | {await response.text()}")
+                    logger.info(f"Recurring request SUCCESS | <{user_id}>")

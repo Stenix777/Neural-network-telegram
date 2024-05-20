@@ -37,7 +37,7 @@ def result_view():
         price = request.args.get("OutSum")
         signature = request.args.get("SignatureValue")
 
-        invoice: Invoice = sync_get_object_by_id(Invoice, int(inv_id), relations=[Invoice.tariff])
+        invoice: Invoice = sync_get_object_by_id(Invoice, int(inv_id))
 
         if invoice.is_paid:
             return Response(f"OK{inv_id}", status=200)
@@ -47,7 +47,7 @@ def result_view():
             return Response("Check signature ERROR", status=403)
 
         user: User = sync_get_object_by_id(User, id_=invoice.user_id, relations=[User.referral_links])
-        tariff: Tariff = invoice.tariff
+        tariff: Tariff = sync_get_object_by_id(Tariff, id_=invoice.tariff_id)
 
         if tariff.is_extra:
             sync_update_object(user, token_balance=user.token_balance + tariff.token_balance)

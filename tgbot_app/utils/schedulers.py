@@ -45,6 +45,7 @@ async def recurrent_payments() -> None:
     users = await get_users_for_recurring()
     if not users:
         logger.info("SCHEDULER | RecurrentPayments | NO USERS")
+        return
 
     tasks_for_unsubscribe = []
     tasks_for_update_users = []
