@@ -121,4 +121,6 @@ async def run_diploma_generation(callback: CallbackQuery, user: User, state: FSM
                                 action=ChatAction.UPLOAD_DOCUMENT):
         await create_service_query(user_id=user.id, type=ServiceModels.DIPLOMA, result=result.result)
         await change_balance(user=user, model=settings.MODELS[ServiceModels.REWRITE])
-        await callback.message.answer_document(document=URLInputFile(url=result.result))
+        await callback.message.answer_document(document=URLInputFile(
+            url=result.result, filename=f"{theme.replace(' ', '_')}.docx"
+        ))
