@@ -52,7 +52,7 @@ def result_view():
         if tariff.is_extra:
             sync_update_object(user, token_balance=user.token_balance + tariff.token_balance)
         else:
-            update_subscription(user=user, invoice=invoice)
+            update_subscription(user=user, invoice=invoice, tariff=tariff)
 
         if user.referral_links:
             link = user.referral_links[0]

@@ -264,9 +264,9 @@ def sync_update_object(obj: Any, **params) -> None:
         session.close()
 
 
-def update_subscription(user: User, invoice: Invoice) -> None:
-    tariff: Tariff = invoice.tariff
-    user.tariff = tariff
+def update_subscription(user: User, invoice: Invoice, tariff: Tariff) -> None:
+    if user.tariff_id != tariff.id:
+        user.tariff_id = tariff.id
 
     if user.payment_time:  # Recurring update
         user.payment_time += timedelta(days=tariff.days)
